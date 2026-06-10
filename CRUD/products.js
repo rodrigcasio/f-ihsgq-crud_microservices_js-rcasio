@@ -13,11 +13,9 @@ let products = [
 ];
 
 
-//Add all the REST API end-points here
-
 // request: http:localhost:5000/products (with GET)
 app.get('/products', (req, res) => {
-  res.json(products);
+  res.json({ "Current products": products });
 });
 
 // request: http:localhost:5000/products/144 (with GET)
@@ -27,7 +25,7 @@ app.get('/products/:id', (req, res) => {
   
   if (productFound) {
     res.json(productFound);
-    console.log(`Product found :)`);
+    console.log(`Product found`);
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
@@ -39,6 +37,7 @@ app.post('/products', (req, res) => {
   const newProduct = req.body;
   products.push(newProduct);
   res.status(201).send();
+  console.log('Product added\n');
 });
 
 
@@ -51,6 +50,7 @@ app.put('/products/:id', (req, res) => {
   if (product) {
     Object.assign(product, updateProduct) // update product properties
     res.status(204).send();
+    console.log(`Product updated`);
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
@@ -66,7 +66,7 @@ app.delete('/products/:id', (req, res) => {
   if (productIndex) {
     products.splice(productIndex, 1); // remove product from array
     res.status(204).send();
-    console.log(`Product removed.`);
+    console.log(`Product removed\n`);
   } else {
     res.status(404).json({ message: "Product not found" });
   }
